@@ -17,34 +17,43 @@ parameters {
 
  stages {
 
- stage('Run Tests') {
+    stage('Run Tests') {
 
- parallel {
+        parallel {
+                stage('Backend Tests') {
 
- stage('Backend Tests') {
+                    steps {
+                        sh 'node ./backend/test.js'
+                    }
+                }
+
+                stage('Frontend Tests') {
+                     when { expression { params.RUN_FRONTEND_TESTS } }
+
+                    steps {
+                        sh 'node ./frontend/test.js'
+                    }
+                }
+
+        }
+
+    }
+
+stage('Deploy') {
+
+ when {
+
+ expression { env.GIT_BRANCH == 'origin/main' }
+
+ }
 
  steps {
 
- sh 'node ./backend/test.js'
+ echo 'Deploying...'
 
  }
 
- }
-
- stage('Frontend Tests') {
-when { expression { params.RUN_FRONTEND_TESTS } }
-
- steps {
-
- sh 'node ./frontend/test.js'
-
- }
-
- }
-
- }
-
- }
+}
 
  }
 
