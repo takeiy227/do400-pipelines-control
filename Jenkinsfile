@@ -39,21 +39,21 @@ parameters {
 
     }
 
-stage('Deploy') {
+    stage('Deploy') {
 
- when {
+        when {
+            expression { env.GIT_BRANCH == 'origin/main' }
+            beforeInput true
+        }
+    input {
+        message 'Deploy the application?'
+    }
 
- expression { env.GIT_BRANCH == 'origin/main' }
+        steps {
+            echo 'Deploying...'
+         }
 
- }
-
- steps {
-
- echo 'Deploying...'
-
- }
-
-}
+    }
 
  }
 
