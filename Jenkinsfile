@@ -1,19 +1,15 @@
 pipeline {
 
- agent {
+    agent {
 
- node {
+        node {
+            label 'nodejs'
+        }
+     }
 
- label 'nodejs'
-
- }
-
- }
-parameters {
-
- booleanParam(name: "RUN_FRONTEND_TESTS", defaultValue: true)
-
-}
+    parameters {
+        booleanParam(name: "RUN_FRONTEND_TESTS", defaultValue: true)
+    }
 
  stages {
 
@@ -39,22 +35,16 @@ parameters {
 
     }
 
-stage('Deploy') {
+    stage('Deploy') {
+        when {
+            expression { env.GIT_BRANCH == 'origin/main' }
+        }
 
- when {
+        steps {
+            echo 'Step not executed...'
+        }
 
- expression { env.GIT_BRANCH == 'origin/main' }
-
- }
-
- steps {
-
- echo 'Deploying...'
-
- }
-
-}
-
+    }
  }
 
 
