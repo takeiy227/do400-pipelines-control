@@ -9,6 +9,11 @@ pipeline {
  }
 
  }
+parameters {
+
+ booleanParam(name: "RUN_FRONTEND_TESTS", defaultValue: true)
+
+}
 
  stages {
 
@@ -27,6 +32,7 @@ pipeline {
  }
 
  stage('Frontend Tests') {
+when { expression { params.RUN_FRONTEND_TESTS } }
 
  steps {
 
